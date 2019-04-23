@@ -6,6 +6,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <MinClientVersion>3.3</MinClientVersion>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
     <ItemGroup>
         <None Include="build\GraphQL.Typed.Client.targets">
@@ -51,12 +54,13 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\GraphQL.Typed.Client.BuildTasks\GraphQL.Typed.Client.BuildTasks.csproj" ExcludeAssets="All" Private="true"/>
+        <ProjectReference Include="..\GraphQL.Typed.Client.BuildTasks\GraphQL.Typed.Client.BuildTasks.csproj" ExcludeAssets="All" Private="true" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="GraphQL.Client" Version="1.0.3"/>
+        <PackageReference Include="GraphQL.Client" Version="1.0.3" />
         <PackageReference Include="GitVersionTask" Version="4.0.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" />
     </ItemGroup>
 </Project>

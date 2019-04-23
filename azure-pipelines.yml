@@ -52,6 +52,12 @@ jobs:
         nuGetFeedType: external
         publishFeedCredentials: 'Nuget.org'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+    - task: NuGetCommand@2
+      inputs:
+        command: push
+        nuGetFeedType: external
+        publishFeedCredentials: 'Nuget.org'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.snupkg'
 - job: Resharper
   pool:
     vmImage: 'vs2017-win2016'
