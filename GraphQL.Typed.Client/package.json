@@ -1,0 +1,15 @@
+{
+  "name": "api.graph.query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "quicktype-core": "^6.0.32",
+    "quicktype-graphql-input": "^0.0.10"
+  },
+  "devDependencies": {
+    "bluebird": "^3.5.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

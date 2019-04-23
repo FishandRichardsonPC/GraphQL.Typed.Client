@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <Description>GraphQL Client Which Autogenerates C# Classes</Description>
+        <Authors>Fish &amp; Richardson</Authors>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <MinClientVersion>3.3</MinClientVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="build\GraphQL.Typed.Client.targets">
+            <Pack>true</Pack>
+            <PackagePath>build</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="node_modules\**\*">
+            <Pack>true</Pack>
+            <PackagePath>node_modules</PackagePath>
+        </None>
+        <Content Include="watcherTasks.xml">
+            <Pack>true</Pack>
+            <PackagePath>.</PackagePath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Include="generateTypes.js">
+            <Pack>true</Pack>
+            <PackagePath>.</PackagePath>
+        </None>
+        <None Include="graphqlconfig.json">
+            <Pack>true</Pack>
+            <PackagePath>.</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="../GraphQL.Typed.Client.BuildTasks/bin/$(Configuration)/net4.6/GraphQL.Typed.Client.BuildTasks.dll">
+            <PackagePath>tasks/$(Configuration)/net4.6</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="../GraphQL.Typed.Client.BuildTasks/bin/$(Configuration)/net4.6/GraphQL.Typed.Client.BuildTasks.pdb">
+            <PackagePath>tasks/$(Configuration)/net4.6</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="../GraphQL.Typed.Client.BuildTasks/bin/$(Configuration)/netstandard2.0/GraphQL.Typed.Client.BuildTasks.dll">
+            <PackagePath>tasks/$(Configuration)/netstandard2.0</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="../GraphQL.Typed.Client.BuildTasks/bin/$(Configuration)/netstandard2.0/GraphQL.Typed.Client.BuildTasks.pdb">
+            <PackagePath>tasks/$(Configuration)/netstandard2.0</PackagePath>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\GraphQL.Typed.Client.BuildTasks\GraphQL.Typed.Client.BuildTasks.csproj" ExcludeAssets="All" Private="true"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="GraphQL.Client" Version="1.0.3"/>
+        <PackageReference Include="GitVersionTask" Version="4.0.0">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+</Project>

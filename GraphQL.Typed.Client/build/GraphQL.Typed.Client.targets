@@ -1,0 +1,63 @@
+﻿<Project>
+    <ItemGroup>
+        <None Remove="**\*.graphql" />
+        <EmbeddedResource Remove="**\*.graphql" />
+        <GraphQL Remove="**\*.graphql" />
+        <Content Remove="**\*.graphql" />
+        <Compile Remove="**\*.graphql" />
+    </ItemGroup>
+    <ItemGroup>
+        <GraphQL Include="**\*.graphql">
+            <Visible>false</Visible>
+        </GraphQL>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="**\*.graphql"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
+        <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">net4.6</TaskFolder>
+        <TaskAssembly Condition="Exists('$(MSBuildThisFileDirectory)..\tasks\Debug')">$(MSBuildThisFileDirectory)..\tasks\Debug\$(TaskFolder)\GraphQL.Typed.Client.BuildTasks.dll</TaskAssembly>
+        <TaskAssembly Condition="Exists('$(MSBuildThisFileDirectory)..\tasks\Release')">$(MSBuildThisFileDirectory)..\tasks\Release\$(TaskFolder)\GraphQL.Typed.Client.BuildTasks.dll</TaskAssembly>
+    </PropertyGroup>
+
+    <UsingTask TaskName="GraphQL.Typed.Client.BuildTasks.SetupWatcher" AssemblyFile="$(TaskAssembly)" />
+    <UsingTask TaskName="GraphQL.Typed.Client.BuildTasks.SetupGraphQlConfig" AssemblyFile="$(TaskAssembly)" />
+
+    <Target
+        Condition=" '$(GraphQLSetupRiderFileWatcher)' == 'True' "
+        Name="SetupRiderFileWatcher"
+        BeforeTargets="ResolveAssemblyReferences;ValidateSolutionConfiguration"
+    >
+        <SetupWatcher
+            SolutionPath="$(SolutionPath)"
+            SchemaPath="$(GraphQLSchema)"
+            SrcPath="$(MSBuildThisFileDirectory)..\watcherTasks.xml"
+        />
+    </Target>
+
+    <Target
+        Condition=" '$(GraphQLSetupConfig)' == 'True' "
+        Name="SetupGraphQLConfig"
+        BeforeTargets="ResolveAssemblyReferences;ValidateSolutionConfiguration"
+    >
+        <SetupGraphQlConfig
+            SolutionPath="$(SolutionPath)"
+            SchemaPath="$(GraphQLSchema)"
+            SrcPath="$(MSBuildThisFileDirectory)..\graphqlconfig.json"
+        />
+    </Target>
+
+    <Target
+        Name="CompileGraphQLToCs"
+        BeforeTargets="ResolveAssemblyReferences;ValidateSolutionConfiguration"
+        Inputs="@(GraphQL)"
+        Outputs="%(GraphQL.Identity).generated.cs"
+    >
+        <Exec Command="node $(MSBuildThisFileDirectory)..\generateTypes.js &quot;$(GraphQLSchema)&quot; &quot;%(GraphQL.Identity)&quot;"/>
+        <CreateItem Include="%(GraphQL.Identity).generated.cs">
+            <Output TaskParameter="Include" ItemName="Compile"/>
+        </CreateItem>
+    </Target>
+</Project>
