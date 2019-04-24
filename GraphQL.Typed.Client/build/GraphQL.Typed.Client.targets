@@ -14,6 +14,10 @@
     <ItemGroup>
         <EmbeddedResource Include="**\*.graphql"/>
     </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="**\*.graphql.generated.cs" />
+        <None Include="**\*.graphql.generated.cs" />
+    </ItemGroup>
 
     <PropertyGroup>
         <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
