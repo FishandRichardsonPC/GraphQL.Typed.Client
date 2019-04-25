@@ -6,14 +6,14 @@
 
 C# Library and ms build tasks for managing .graphql files within a c# project. This project will create c# files using
 [quicktype](https://quicktype.io/) for any .graphql files in your project which will use the
-[GraphQL.Client](https://github.com/graphql-dotnet/graphql-client) library to request the results 
+[GraphQL.Client](https://github.com/graphql-dotnet/graphql-client) library to request the results
 
 # Usage
 Note: This package only works .net versions which support .net standard. You will also need to use dependency injection.
 
 ## Consuming this package with an existing schema
 1. Acquire the schema.json file for the graphql server you want to request data from
-2. Recommended: Add that file to your project
+2. Add that file to your project
 3. Add the GraphQL.Typed.Client nuget package
 4. In your csproj file add a `<GraphQLSchema>` tag inside the first property group, inside that tag add the path to your schema file
 5. Optional: If using JetBrains Rider add `<GraphQLSetupRiderFileWatcher>True</GraphQLSetupRiderFileWatcher>` inside the first property group to auto generate a file watcher
@@ -40,6 +40,14 @@ This package can also be used to produce a nuget package which will generate typ
         <PropertyGroup>
             <GraphQLSchema>$(MSBuildThisFileDirectory)\..\schema.json</GraphQLSchema>
         </PropertyGroup>
+
+        <PropertyGroup>
+            <RelativeSchemaPath>$([MSBuild]::MakeRelative('$(MSBuildProjectDirectory)', '$(GraphQLSchema)'))</RelativeSchemaPath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <None Include="$(RelativeSchemaPath)" Visible="false"/>
+        </ItemGroup>
     </Project>
     ```
 7. Add your schma.json file to your project
